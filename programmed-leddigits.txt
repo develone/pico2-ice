@@ -1,0 +1,41 @@
+devel@pi5-90:~/pico-ice-micropython/boards/PICO_ICE/build $ ls -la
+total 1220
+drwxr-xr-x 9 devel devel   4096 Apr  7 16:11 .
+drwxr-xr-x 4 devel devel   4096 Apr  7 16:08 ..
+-rw-r--r-- 1 devel devel  30880 Apr  7 16:09 CMakeCache.txt
+-rw-r--r-- 1 devel devel  14786 Apr  7 16:09 CMakeDoxyfile.in
+-rw-r--r-- 1 devel devel  20369 Apr  7 16:09 CMakeDoxygenDefaults.cmake
+drwxr-xr-x 6 devel devel   4096 Apr  7 16:11 CMakeFiles
+-rw-r--r-- 1 devel devel   1743 Apr  7 16:09 cmake_install.cmake
+-rw-r--r-- 1 devel devel 672768 Apr  7 16:11 firmware.uf2
+-rw-r--r-- 1 devel devel 425345 Apr  7 16:10 frozen_content.c
+drwxr-xr-x 3 devel devel   4096 Apr  7 16:10 frozen_mpy
+drwxr-xr-x 3 devel devel   4096 Apr  7 16:09 generated
+drwxr-xr-x 5 devel devel   4096 Apr  7 16:10 genhdr
+-rw-r--r-- 1 devel devel   9068 Apr  7 16:09 Makefile
+drwxr-xr-x 5 devel devel   4096 Apr  7 16:11 micropython
+-rw-r--r-- 1 devel devel     58 Apr  7 16:09 pico_flash_region.ld
+-rw-r--r-- 1 devel devel  19730 Apr  7 16:10 pins_pico_ice.c
+drwxr-xr-x 3 devel devel   4096 Apr  7 16:10 pioasm
+drwxr-xr-x 3 devel devel   4096 Apr  7 16:10 pioasm-install
+
+cp firmware.uf2 /media/devel/RP2350/
+devel@pi5-90:~/pico-ice-micropython/boards/PICO_ICE/build $ ls -la /media/devel/5221-0000/
+total 220
+drwxr-xr-x  2 devel devel  16384 Dec 31  1969 .
+drwxr-x---+ 3 root  root    4096 Apr  8 12:42 ..
+-rw-r--r--  1 devel devel    177 Dec 31  2020 main.py
+-rw-r--r--  1 devel devel  92672 Apr  6 20:02 pico2_ice_default.uf2
+-rw-r--r--  1 devel devel 104090 Apr  8 12:53 top.bin
+
+mpremote connect "/dev/ttyACM0"
+Connected to MicroPython at /dev/ttyACM0
+Use Ctrl-] or Ctrl-x to exit this shell
+
+from machine import Pin
+import ice
+fpga = ice.fpga(cdone=Pin(40), clock=Pin(21), creset=Pin(31), cram_cs=Pin(5), cram_mosi=Pin(4), cram_sck=Pin(6), frequency=48)
+ffile = open("top.bin", "br")
+fpga.start()
+fpga.cram(file)
+leddigits started counting
