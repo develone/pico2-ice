@@ -2,8 +2,9 @@ from machine import Pin
 from machine import UART
 import ice
 #frequency=12 since a pll is used to increase to 25MHz 
-fpga = ice.fpga(cdone=Pin(26), clock=Pin(24), creset=Pin(27), cram_cs=Pin(9), cram_mosi=Pin(8), cram_sck=Pin(10), frequency=12)
+fpga = ice.fpga(cdone=Pin(40), clock=Pin(21), creset=Pin(31), cram_cs=Pin(5), cram_mosi=Pin(4), cram_sck=Pin(6), frequency=48)
 file = open("uart-echo-PipelineC.bin","br")
+flash = ice.flash(miso=Pin(4), mosi=Pin(7), sck=Pin(6), cs=Pin(5))
 fpga.start()
 fpga.cram(file)
 uart = UART(0, 115200)
