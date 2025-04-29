@@ -1,0 +1,14 @@
+(env) devel@pi5-90:~/pico2-ice/PipelineC/blink-ex-uart-echo/test_mpremote $ mpremote run test_uart-echo.py 
+(env) devel@pi5-90:~/pico2-ice/PipelineC/blink-ex-uart-echo/test_mpremote $ mpremote
+Connected to MicroPython at /dev/ttyACM0
+Use Ctrl-] or Ctrl-x to exit this shell
+from machine import UART
+>>> uart = UART(0, 115200)
+>>> uart.init(115200, bits=8, parity=None, stop=1, tx=0, rx=1)
+>>> buf="abc"
+>>> uart.write(buf)
+3
+>>> uart.read(3)
+>>> buf
+'abc'
+
