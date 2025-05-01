@@ -3,8 +3,8 @@
 
 // Configure IO direction for each pin used
 // UART
-#define ICE_25_OUT
-#define ICE_27_IN
+#define ICE_11_OUT
+#define ICE_9_IN
 /*
 // PMOD0A
 #define ICE_45_OUT
@@ -27,11 +27,11 @@
 #define ICE_36_OUT
 #define ICE_42_OUT
 */
-#include "board/pico_ice.h"
+#include "board/pico2_ice.h"
 
 // Configure UART module
-#define UART_TX_OUT_WIRE ice_25
-#define UART_RX_IN_WIRE ice_27
+#define UART_TX_OUT_WIRE ice_11
+#define UART_RX_IN_WIRE ice_9
 #define UART_CLK_MHZ 12.0
 #define UART_BAUD 115200
 #include "uart/uart_mac.c"

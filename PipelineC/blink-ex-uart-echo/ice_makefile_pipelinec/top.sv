@@ -5,8 +5,8 @@ module top(
   output ICE_40,
   output ICE_41,
   // UART
-  output ICE_25,
-  input ICE_27
+  output ICE_11,
+  input ICE_9
 );
 
   pipelinec_top pipelinec_inst(
@@ -16,8 +16,8 @@ module top(
     .ice_40_return_output(ICE_40),
     .ice_41_return_output(ICE_41),
     // UART
-    .ice_25_return_output(ICE_25),
-    .ice_27_val_input(ICE_27)
+    .ice_25_return_output(ICE_11),
+    .ice_27_val_input(ICE_9)
   );
 
 endmodule
