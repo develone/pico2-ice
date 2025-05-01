@@ -25,11 +25,11 @@ DECL_OUTPUT(uint1_t, ice_41)
 #include "rgb_led/led_rgb_wires.c"
 
 // GPIO multiple use pins
-#ifdef ICE_25_OUT
-DECL_OUTPUT(uint1_t, ice_25)
+#ifdef ICE_11_OUT
+DECL_OUTPUT(uint1_t, ice_11)
 #endif
-#ifdef ICE_27_IN
-DECL_INPUT(uint1_t, ice_27)
+#ifdef ICE_9_IN
+DECL_INPUT(uint1_t, ice_9)
 #endif
 
 // Expose named PMOD ports
