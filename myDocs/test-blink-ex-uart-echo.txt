@@ -1,0 +1,45 @@
+devel@pi5-90:~ $ git clone https://github.com/develone/PipelineC.git -b test-dev-050125
+Cloning into 'PipelineC'...
+remote: Enumerating objects: 15188, done.
+remote: Counting objects: 100% (2326/2326), done.
+remote: Compressing objects: 100% (327/327), done.
+remote: Total 15188 (delta 2159), reused 2050 (delta 1994), pack-reused 12862 (from 3)
+Receiving objects: 100% (15188/15188), 86.26 MiB | 45.74 MiB/s, done.
+Resolving deltas: 100% (9133/9133), done.
+
+devel@pi5-90:~ $ git clone  https://github.com/develone/pico2-ice.git -b test-dev
+Cloning into 'pico2-ice'...
+remote: Enumerating objects: 1242, done.
+remote: Counting objects: 100% (89/89), done.
+remote: Compressing objects: 100% (37/37), done.
+remote: Total 1242 (delta 61), reused 64 (delta 52), pack-reused 1153 (from 3)
+Receiving objects: 100% (1242/1242), 270.43 MiB | 51.95 MiB/s, done.
+Resolving deltas: 100% (408/408), done.
+devel@pi5-90:~ $ cd pico2-ice/PipelineC/blink-ex-uart-echo/ice_makefile_pipelinec/
+devel@pi5-90:~/pico2-ice/PipelineC/blink-ex-uart-echo/ice_makefile_pipelinec $ make clean
+rm -f *.json *.asc *.bin *.uf2
+rm -f yosys_stderr.log
+rm -f pipelinec.log
+rm -f -r pipelinec_output
+rm -f lextab.py
+rm -f yacctab.py
+rm -f dfu_util.log
+devel@pi5-90:~/pico2-ice/PipelineC/blink-ex-uart-echo/ice_makefile_pipelinec $ make pipelinec 
+/home/devel/PipelineC/src/pipelinec top.c --top pipelinec_top --out_dir pipelinec_output --comb --no_synth > pipelinec.log
+devel@pi5-90:~/pico2-ice/PipelineC/blink-ex-uart-echo/ice_makefile_pipelinec $ make gateware.bin 
+/home/devel/oss-cad-suite//bin/yosys -l simple.log -q -m ghdl -p "ghdl --std=08 -frelaxed `cat pipelinec_output/vhdl_files.txt` -e pipelinec_top; read_verilog -sv top.sv; synth_ice40 -top top -json gateware.json" 2> yosys_stderr.log
+/home/devel/oss-cad-suite//bin/nextpnr-ice40 -l nextpnr.log -q --randomize-seed --up5k --package sg48 --pcf ice40.pcf --json gateware.json --asc gateware.asc
+/home/devel/oss-cad-suite//bin/icepack gateware.asc gateware.bin
+devel@pi5-90:~/pico2-ice/PipelineC/blink-ex-uart-echo/ice_makefile_pipelinec $ cp gateware.bin ../test_mpremote/uart-echo-PipelineC.bin 
+devel@pi5-90:~/pico2-ice/PipelineC/blink-ex-uart-echo/ice_makefile_pipelinec $ cd ../test_mpremote/
+devel@pi5-90:~/pico2-ice/PipelineC/blink-ex-uart-echo/test_mpremote $ . virtp.sh 
+(env) devel@pi5-90:~/pico2-ice/PipelineC/blink-ex-uart-echo/test_mpremote $ pip3 install mpremote
+Looking in indexes: https://pypi.org/simple, https://www.piwheels.org/simple
+Collecting mpremote
+  Using cached mpremote-1.25.0-py3-none-any.whl (33 kB)
+Collecting pyserial>=3.3
+  Using cached https://www.piwheels.org/simple/pyserial/pyserial-3.5-py2.py3-none-any.whl (90 kB)
+Installing collected packages: pyserial, mpremote
+Successfully installed mpremote-1.25.0 pyserial-3.5
+(env) devel@pi5-90:~/pico2-ice/PipelineC/blink-ex-uart-echo/test_mpremote $ mpremote run test_uart-echo.py 
+abc
