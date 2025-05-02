@@ -21,7 +21,7 @@ devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/examples/pico-ice/ice_makefile_
 6cf7b9373f64f5a9db51ee6f2be522da4249b95c  gateware.bin
 devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/examples/pico-ice/ice_makefile_pipelinec $ cp gateware.bin ../../../test_mpremote/ethernet.bin
 (env) devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/test_mpremote $ shasum ethernet-PipelineC.bin 
-9534468fefe095e217911c0e1a988a5640f25f35  ethernet-PipelineC.bin
+6cf7b9373f64f5a9db51ee6f2be522da4249b95c  ethernet-PipelineC.bin
 devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/test_mpremote $ . virtp.sh 
 (env) devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/test_mpremote $ pip3 install mpremote
 Looking in indexes: https://pypi.org/simple, https://www.piwheels.org/simple
