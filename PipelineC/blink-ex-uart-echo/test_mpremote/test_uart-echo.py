@@ -12,6 +12,5 @@ uart.init(115200, bits=8, parity=None, stop=1, tx=28, rx=29) # init with given p
 bufout = "abc"
 print(bufout)
 uart.write(bufout)
-uart.readinto(bufin,3)
-print(bufin)
+uart.read(3)
 
