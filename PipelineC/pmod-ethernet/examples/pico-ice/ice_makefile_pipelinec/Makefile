@@ -1,7 +1,21 @@
 # Example command lines:
-# 	make clean all PIPELINEC_REPO=/media/1TB/Dropbox/PipelineC/git/PipelineC OSS_CAD_SUITE=/media/1TB/Programs/Linux/oss-cad-suite
-# 	make clean all PIPELINEC_REPO=/media/1TB/Dropbox/PipelineC/git/PipelineC OSS_CAD_SUITE=/media/1TB/Programs/Linux/oss-cad-suite TOP_NAME=ethernet_top PLL_CLK_MHZ=16.0 NEXTPNR_ARGS="--pre-pack eth_clocks.py"
-# 	sudo make prog OSS_CAD_SUITE=/media/1TB/Programs/Linux/oss-cad-suite
+#  # Export common env variables for all targets, ex.
+#  export PIPELINEC_REPO=/media/1TB/Dropbox/PipelineC/git/PipelineC; export OSS_CAD_SUITE=/media/1TB/Programs/Linux/oss-cad-suite
+#  PICO ICE:
+#    # The basic 'top' design, see top.c, same as PIPELINEC_TOP_FILE=top.c default
+#    make clean all
+#    # Pong demo, see pong_top.c
+#    make clean all PIPELINEC_TOP_FILE=pong_top.c
+#    # Ethernet demo, see ethernet_top.c
+#    make clean all PIPELINEC_TOP_FILE=ethernet_top.c PLL_CLK_MHZ=16.0 NEXTPNR_ARGS="--pre-pack eth_clocks.py"
+#    # Program the FPGA
+#    make prog_pico
+#  PICE2 ICE:
+#    # The basic 'top' design, see top.c, same as PIPELINEC_TOP_FILE=top.c default
+#    make clean all BOARD=PICO2
+#		 #   ^etc same commands as pico-ice, just append new BOARD=PICO2 argument
+#    # Program the FPGA
+#    sudo make prog_pico2
 YOSYS = $(OSS_CAD_SUITE)/bin/yosys
 NEXTPNR = $(OSS_CAD_SUITE)/bin/nextpnr-ice40
 ICEPACK = $(OSS_CAD_SUITE)/bin/icepack
@@ -11,6 +25,8 @@ BIN2UF2 = bin2uf2
 PIPELINEC = $(PIPELINEC_REPO)/src/pipelinec
 TOP_NAME ?= top
 PIPELINEC_TOP_FILE ?= $(TOP_NAME).c
+SV_TOP_FILE ?= $(TOP_NAME).sv
+BOARD ?= PICO # or PICO2
 
 # Only one PLL producing one clock in design for now...
 PLL_CLK_MHZ ?= 25.0
@@ -23,21 +39,27 @@ all: pipelinec gateware.bin
 clean:
 	$(RM) lextab.py
 	$(RM) yacctab.py
-	$(RM) pll_clk_mhz.h
+	$(RM) pipelinec_makefile_config.h
 	$(RM) -r pipelinec_output
 	$(RM) pipelinec.log
 	$(RM) pll.v
 	$(RM) *.json *.asc *.bin *.uf2
 	$(RM) yosys_stderr.log
 	$(RM) dfu_util.log
+	$(RM) mpremote.log
 
-prog: gateware.bin
+prog_pico: gateware.bin
 	sudo $(DFU_UTIL) -d 1209:b1c0 -a 1 -D gateware.bin -R > dfu_util.log
 
-gateware.bin: $(TOP_NAME).sv
-	$(ICEPLL) -q -i 12 -o $(PLL_CLK_MHZ) -p -m -f pll.v
-	$(YOSYS) -l simple.log -q -m ghdl -p "ghdl --std=08 -frelaxed `cat pipelinec_output/vhdl_files.txt` -e pipelinec_top; read_verilog -sv $(TOP_NAME).sv pll.v; synth_ice40 -top $(TOP_NAME) -json $*.json" 2> yosys_stderr.log
-	$(NEXTPNR) -l nextpnr.log -q --randomize-seed --up5k --package sg48 --pcf ice40.pcf --json $*.json --asc $*.asc $(NEXTPNR_ARGS)
+# pip3 install mpremote if needed
+prog_pico2: gateware.bin
+	mpremote cp gateware.bin : > mpremote.log
+	mpremote run pico2_program_ice.py >> mpremote.log
+
+gateware.bin: $(SV_TOP_FILE)
+	$(ICEPLL) -q -i 12 -o $(PLL_CLK_MHZ) -m -f pll.v
+	$(YOSYS) -q -m ghdl -p "ghdl --std=08 -frelaxed `cat pipelinec_output/vhdl_files.txt` -e pipelinec_top; read_verilog -sv $(SV_TOP_FILE) pll.v; synth_ice40 -top $(TOP_NAME) -json $*.json" 2> yosys_stderr.log
+	$(NEXTPNR) -q --seed 0 --up5k --package sg48 --pcf ice40.pcf --json $*.json --asc $*.asc $(NEXTPNR_ARGS)
 	$(ICEPACK) $*.asc $@
 
 .bin.uf2:
@@ -47,7 +69,8 @@ gateware.bin: $(TOP_NAME).sv
 # https://github.com/JulianKemmerer/PipelineC/issues/56
 # So instead echo a .h file right before running tool...
 pipelinec:
-	echo "#define PLL_CLK_MHZ $(PLL_CLK_MHZ)\n" > pll_clk_mhz.h
+	echo "#define PLL_CLK_MHZ $(PLL_CLK_MHZ)\n" > pipelinec_makefile_config.h
+	echo "#define BOARD_$(BOARD)\n" >> pipelinec_makefile_config.h
 	$(PIPELINEC) $(PIPELINEC_TOP_FILE) --top pipelinec_top --out_dir pipelinec_output --comb --no_synth > pipelinec.log
 
 .SUFFIXES: .v .sv .asc .bin .uf2

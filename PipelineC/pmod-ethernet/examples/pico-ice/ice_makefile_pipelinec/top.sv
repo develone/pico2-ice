@@ -1,44 +1,56 @@
 module top(
-  `include "top_pins.svh"
+  // These pins should all exist in ice40.pcf
+  // Pin 35 12MHz clock in pico-ice default RP firmware
+  // Cannot be used if HFOSC and PLL are being used in top.sv
+  //inout ICE_35,
+  inout ICE_39,
+  inout ICE_40,
+  inout ICE_41,
+  inout ICE_25,
+  inout ICE_27,
+  inout ICE_11,
+  inout ICE_9,
+  inout ICE_45,
+  inout ICE_47,
+  inout ICE_2,
+  inout ICE_4,
+  inout ICE_44,
+  inout ICE_46,
+  inout ICE_48,
+  inout ICE_3,
+  inout ICE_31,
+  inout ICE_34,
+  inout ICE_38,
+  inout ICE_43,
+  inout ICE_28,
+  inout ICE_32,
+  inout ICE_36,
+  inout ICE_42
 );
-  // PLL instance to make a clock based on 12MHz input
+  // No 12M input for PICO2_ICE
+  // High frequency oscillator
+  //  CLKHF_DIV
+  //  0b00 = 48 MHz, 0b01 = 24 MHz,
+  //  0b10 = 12 MHz, 0b11 = 6 MHz
+  // This config needs to match micropython fpga = ice.fpga(frequency= argument?
+  wire clk_12p0;
+  SB_HFOSC#(.CLKHF_DIV("0b10")) u_hfosc (
+    .CLKHFPU(1'b1),
+    .CLKHFEN(1'b1),
+    .CLKHF(clk_12p0)
+  );
+  // PLL instance to make a clock based on 12MHz
   wire pll_clk;
   pll pll_inst(
     .clock_in(clk_12p0),
     .clock_out(pll_clk),
     .locked()
-	);
+  );
 
   // PipelineC output HDL instance
   pipelinec_top pipelinec_inst(
-    .pll_clk_val_input(pll_clk),
-    // RGB LED
-    .ice_39_return_output(ICE_39),
-    .ice_40_return_output(ICE_40),
-    .ice_41_return_output(ICE_41),
-    // UART
-    .ice_25_return_output(ICE_25),
-    .ice_27_val_input(ICE_27),
-    // PMODs for VGA demo
-    // PMOD0A
-    .ice_45_return_output(ICE_45),
-    .ice_47_return_output(ICE_47),
-    .ice_2_return_output(ICE_2),
-    .ice_4_return_output(ICE_4),
-    // PMOD0B
-    .ice_44_return_output(ICE_44),
-    .ice_46_return_output(ICE_46),
-    .ice_48_return_output(ICE_48),
-    .ice_3_return_output(ICE_3),
-    // PMOD1A
-    .ice_31_return_output(ICE_31),
-    .ice_34_return_output(ICE_34),
-    .ice_38_return_output(ICE_38),
-    .ice_43_return_output(ICE_43),
-    // PMOD1B
-    // UNUSED for VGA PMOD .ice_28_return_output(ICE_28),
-    // UNUSED for VGA PMOD .ice_32_return_output(ICE_32),
-    .ice_36_return_output(ICE_36),
-    .ice_42_return_output(ICE_42)
+    // The pipelinec port names exactly match wires in this top level .sv
+    // so can use wildcard .* implicit port connection to automatically connect them
+    .*
   );
 endmodule
