@@ -1,0 +1,77 @@
+05/09/25 05/10/25
+devel@pi5-90:~ $ git clone https://github.com/develone/PipelineC.git -b test-dev-050124
+devel@pi5-90:~ $ cd PipelineC/examples/pico-ice/ice_makefile_pipelinec
+devel@pi5-90:~/PipelineC/examples/pico-ice/ice_makefile_pipelinec $ make clean all BOARD=PICO2 PIPELINEC_TOP_FILE=ethernet_top.c PLL_CLK_MHZ=16.0 NEXTPNR_ARGS="--pre-pack eth_clocks.py"
+rm -f lextab.py
+rm -f yacctab.py
+rm -f pipelinec_makefile_config.h
+rm -f -r pipelinec_output
+rm -f pipelinec.log
+rm -f pll.v
+rm -f *.json *.asc *.bin *.uf2
+rm -f yosys_stderr.log
+rm -f dfu_util.log
+rm -f mpremote.log
+echo "#define PLL_CLK_MHZ 16.0\n" > pipelinec_makefile_config.h
+echo "#define BOARD_PICO2\n" >> pipelinec_makefile_config.h
+/home/devel/PipelineC/src/pipelinec ethernet_top.c --top pipelinec_top --out_dir pipelinec_output --comb --no_synth > pipelinec.log
+/home/devel/oss-cad-suite//bin/icepll -q -i 48 -o 16.0 -m -f pll.v
+/home/devel/oss-cad-suite//bin/yosys -q -m ghdl -p "ghdl --std=08 -frelaxed `cat pipelinec_output/vhdl_files.txt` -e pipelinec_top; read_verilog -sv top.sv pll.v; synth_ice40 -top top -json gateware.json" 2> yosys_stderr.log
+/home/devel/oss-cad-suite//bin/nextpnr-ice40 -q --seed 0 --up5k --package sg48 --pcf ice40.pcf --json gateware.json --asc gateware.asc --pre-pack eth_clocks.py
+/home/devel/oss-cad-suite//bin/icepack gateware.asc gateware.bin
+
+devel@pi5-90:~/PipelineC/examples/pico-ice/ice_makefile_pipelinec $ . ./virtp.sh
+
+
+(env) devel@pi5-90:~/PipelineC/examples/pico-ice/ice_makefile_pipelinec $ rm -f /media/devel/5221-0000/*.bin
+(env) devel@pi5-90:~/PipelineC/examples/pico-ice/ice_makefile_pipelinec $ cp gateware.bin /media/devel/5221-0000/
+(env) devel@pi5-90:~/PipelineC/examples/pico-ice/ice_makefile_pipelinec $ mpremote run pico2_program_ice.py
+pico2-ice started blinking red 
+
+devel@pi5-90:~/PipelineC/examples/net $ ./compile-work_test.sh 
+devel@pi5-90:~/PipelineC/examples/net $ sudo ./work_test 
+CPU threads: 1
+n 'work()'s: 1 
+Total tx bytes: 8 
+Total rx bytes: 4 
+CPU took 0.000231 seconds to execute 
+CPU iteration time: 0.000231 seconds
+CPU bytes per sec: 51941.845201 B/s
+FPGA took 0.000165 seconds to execute 
+FPGA iteration time: 0.000165 seconds
+FPGA bytes per sec: 72733.595376 B/s
+Speedup: 1.400289
+
+devel@pi5-90:~ $ git clone https://github.com/develone/pico2-ice.git -b test-dev
+commit 8bc13afaf0a480a824be5d2c2cb2511a79bd6edc (HEAD -> test-dev, origin/test-dev)
+Author: Edward Vidal Jr <develone@sbcglobal.net>
+Date:   Sat May 10 14:18:44 2025 -0600
+
+    testing 05/10/25
+(env) devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/examples/pico-ice/ice_makefile_pipelinec $ make clean all BOARD=PICO2 PIPELINEC_TOP_FILE=ethernet_top.c PLL_CLK_MHZ=16.0 NEXTPNR_ARGS="--pre-pack eth_clocks.py"
+(env) devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/examples/pico-ice/ice_makefile_pipelinec $ rm -f /media/devel/5221-0000/*.bin
+(env) devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/examples/pico-ice/ice_makefile_pipelinec $ cp gateware.bin /media/devel/5221-0000/
+(env) devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/examples/pico-ice/ice_makefile_pipelinec $ mpremote run pico2_program_ice.py(env) devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/examples/pico-ice/ice_makefile_pipelinec $ mpremote run pico2_program_ice.py
+(env) devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/examples/pico-ice/ice_makefile_pipelinec $ mpremote run test_uart-a-z.py 
+sending abc...xyz recieving ABC...XYZ
+abcdefghijklmnopqrstuvwxyz
+b'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+0123456789
+b'0123456789'
+sending ZYX...CBA recieving zyx...cba
+ZYXWUTUSRQPONMLKJIHGFEDCBA
+b'zyxwutusrqponmlkjihgfedcba
+devel@pi5-90:~ $ cd pico2-ice/PipelineC/pmod-ethernet/examples/net/
+devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/examples/net $ ./compile-work_test.sh 
+devel@pi5-90:~/pico2-ice/PipelineC/pmod-ethernet/examples/net $ sudo ./work_test 
+CPU threads: 1
+n 'work()'s: 1 
+Total tx bytes: 8 
+Total rx bytes: 4 
+CPU took 0.000223 seconds to execute 
+CPU iteration time: 0.000223 seconds
+CPU bytes per sec: 53830.639572 B/s
+FPGA took 0.000160 seconds to execute 
+FPGA iteration time: 0.000160 seconds
+FPGA bytes per sec: 75009.907601 B/s
+Speedup: 1.393443
