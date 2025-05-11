@@ -1,0 +1,37 @@
+devel@pi5-90:git clone  https://github.com/develone/pico2-ice.git -b test-dev
+devel@pi5-90:~/pico2-ice $ cd Firmware/pico2-ice-default/
+
+devel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default $ git diff main.c
+diff --git a/Firmware/pico2-ice-default/main.c b/Firmware/pico2-ice-default/main.c
+index e6d30d0..8776d41 100644
+--- a/Firmware/pico2-ice-default/main.c
++++ b/Firmware/pico2-ice-default/main.c
+@@ -39,8 +39,8 @@
+ #define UART_TX_PIN 0  //ICE_27
+ #define UART_RX_PIN 1  //ICE_25
+ #elif PICO_ICE_BOARD_ID == PICO2_ICE
+-#define UART_TX_PIN 20  //ICE_27
+-#define UART_RX_PIN 30  //ICE_25
++#define UART_TX_PIN 24  //ICE_27
++#define UART_RX_PIN 25  //ICE_25
+ #else
+ #error "pico-ice board model not found"
+ #endif
+devel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default $ git submodule update --init
+
+devel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default $ cmake -DPICO_ICE_BOARD=pico2-ice .
+PICO_SDK_PATH is /home/devel/pico2/pico-sdk
+Target board (PICO_BOARD) is 'pico'.
+Using board configuration from /home/devel/pico2/pico-sdk/src/boards/include/boards/pico.h
+Pico Platform (PICO_PLATFORM) is 'rp2040'.
+Build type is Release
+TinyUSB available at /home/devel/pico2/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040; enabling build support for USB.
+BTstack available at /home/devel/pico2/pico-sdk/lib/btstack
+cyw43-driver available at /home/devel/pico2/pico-sdk/lib/cyw43-driver
+lwIP available at /home/devel/pico2/pico-sdk/lib/lwip
+mbedtls available at /home/devel/pico2/pico-sdk/lib/mbedtls
+-- Configuring for pico2-ice (rp2350)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/devel/pico2-ice/Firmware/pico2-ice-default
+
