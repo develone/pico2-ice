@@ -1,0 +1,23 @@
+devel@pi5-90:~/PipelineC/examples/pico-ice/ice_makefile_pipelinec $ make clean all BOARD=PICO2 PIPELINEC_TOP_FILE=pong_top.c
+rm -f lextab.py
+rm -f yacctab.py
+rm -f pipelinec_makefile_config.h
+rm -f -r pipelinec_output
+rm -f pipelinec.log
+rm -f pll.v
+rm -f *.json *.asc *.bin *.uf2
+rm -f yosys_stderr.log
+rm -f dfu_util.log
+rm -f mpremote.log
+echo "#define PLL_CLK_MHZ 25.0\n" > pipelinec_makefile_config.h
+echo "#define BOARD_PICO2\n" >> pipelinec_makefile_config.h
+/home/devel/PipelineC/src/pipelinec pong_top.c --top pipelinec_top --out_dir pipelinec_output --comb --no_synth > pipelinec.log
+/home/devel/oss-cad-suite//bin/icepll -q -i 12 -o 25.0 -p -m -f pll.v
+/home/devel/oss-cad-suite//bin/yosys -q -m ghdl -p "ghdl --std=08 -frelaxed `cat pipelinec_output/vhdl_files.txt` -e pipelinec_top; read_verilog -sv top.sv pll.v; synth_ice40 -top top -json gateware.json" 2> yosys_stderr.log
+/home/devel/oss-cad-suite//bin/nextpnr-ice40 -q --seed 0 --up5k --package sg48 --pcf ice40.pcf --json gateware.json --asc gateware.asc --freq 25.0
+/home/devel/oss-cad-suite//bin/icepack gateware.asc gateware.bin
+devel@pi5-90:~/PipelineC/examples/pico-ice/ice_makefile_pipelinec $ bin2uf2 -o gateware.uf2 gateware.bin 
+devel@pi5-90:~/PipelineC/examples/pico-ice/ice_makefile_pipelinec $ cp gateware.uf2 /media/devel/pico2-ice/
+
+red is bottom pin1  RX yellow is is bottom pin3  TX yellow is grd
+
