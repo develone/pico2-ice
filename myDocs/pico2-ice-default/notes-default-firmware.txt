@@ -81,3 +81,42 @@ CMake Error at CMakeLists.txt:22 (add_subdirectory):
 See also "/home/devel/pico2-ice/Firmware/pico2-ice-default/build/CMakeFiles/CMakeOutput.log".
 See also "/home/devel/pico2-ice/Firmware/pico2-ice-default/build/CMakeFiles/CMakeError.log".
 
+devel@pi5-90:~/pico2-ice/Firmware $ rm -rf pico-ice-sdk/
+devel@pi5-90:~/pico2-ice/Firmware $ git clone https://github.com/tinyvision-ai-inc/pico-ice-sdk.git
+Cloning into 'pico-ice-sdk'...
+remote: Enumerating objects: 3833, done.
+remote: Counting objects: 100% (308/308), done.
+remote: Compressing objects: 100% (84/84), done.
+remote: Total 3833 (delta 260), reused 224 (delta 224), pack-reused 3525 (from 2)
+Receiving objects: 100% (3833/3833), 5.53 MiB | 14.70 MiB/s, done.
+Resolving deltas: 100% (2436/2436), done.
+devel@pi5-90:~/pico2-ice/Firmware $ cd pico-ice-sdk/
+devel@pi5-90:~/pico2-ice/Firmware/pico-ice-sdk $ ls -la
+total 76
+drwxr-xr-x 11 devel devel 4096 May 11 19:14 .
+drwxr-xr-x  4 devel devel 4096 May 11 19:14 ..
+drwxr-xr-x  2 devel devel 4096 May 11 19:14 amaranth
+-rw-r--r--  1 devel devel 1974 May 11 19:14 CHANGELOG.md
+-rw-r--r--  1 devel devel 1388 May 11 19:14 CMakeLists.txt
+-rw-r--r--  1 devel devel   22 May 11 19:14 CNAME
+-rw-r--r--  1 devel devel  317 May 11 19:14 CONTRIBUTING.md
+drwxr-xr-x 21 devel devel 4096 May 11 19:14 examples
+drwxr-xr-x  8 devel devel 4096 May 11 19:14 .git
+drwxr-xr-x  3 devel devel 4096 May 11 19:14 .github
+-rw-r--r--  1 devel devel   31 May 11 19:14 .gitignore
+-rw-r--r--  1 devel devel  313 May 11 19:14 .gitmodules
+drwxr-xr-x  3 devel devel 4096 May 11 19:14 include
+drwxr-xr-x  4 devel devel 4096 May 11 19:14 lib
+-rw-r--r--  1 devel devel 1070 May 11 19:14 LICENSE.md
+-rw-r--r--  1 devel devel  566 May 11 19:14 README.md
+drwxr-xr-x  2 devel devel 4096 May 11 19:14 rtl
+drwxr-xr-x  2 devel devel 4096 May 11 19:14 src
+drwxr-xr-x  2 devel devel 4096 May 11 19:14 tools
+devel@pi5-90:~/pico2-ice/Firmware/pico-ice-sdk $ git submodule update --init
+Submodule 'lib/pico-sdk' (https://github.com/raspberrypi/pico-sdk) registered for path 'lib/pico-sdk'
+Submodule 'lib/tinyuf2' (https://github.com/adafruit/tinyuf2) registered for path 'lib/tinyuf2'
+Cloning into '/home/devel/pico2-ice/Firmware/pico-ice-sdk/lib/pico-sdk'...
+Cloning into '/home/devel/pico2-ice/Firmware/pico-ice-sdk/lib/tinyuf2'...
+Submodule path 'lib/pico-sdk': checked out 'f396d05f8252d4670d4ea05c8b7ac938ef0cd381'
+Submodule path 'lib/tinyuf2': checked out 'a70bd876a38fec1a204ec1e8051b119bcf6a43eb'
+
