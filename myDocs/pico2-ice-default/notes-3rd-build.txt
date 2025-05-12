@@ -1,0 +1,89 @@
+devel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default/build $ cmake -DPICO_ICE_BOARD=pico2-ice -DPICO_BOARD=pico2 ../
+PICO_SDK_PATH is /home/devel/pico2/pico-sdk
+Target board (PICO_BOARD) is 'pico2'.
+Using board configuration from /home/devel/pico2/pico-sdk/src/boards/include/boards/pico2.h
+Auto-converting non-specific PICO_PLATFORM='rp2350' to 'rp2350-arm-s'
+Defaulting platform (PICO_PLATFORM) to 'rp2350-arm-s' based on PICO_BOARD setting.
+-- Defaulting build type to 'Release' since not specified.
+Defaulting compiler (PICO_COMPILER) to 'pico_arm_cortex_m33_gcc' since not specified.
+Configuring toolchain based on PICO_COMPILER 'pico_arm_cortex_m33_gcc'
+Defaulting PICO_GCC_TRIPLE to 'arm-none-eabi'
+-- The C compiler identification is GNU 12.2.1
+-- The CXX compiler identification is GNU 12.2.1
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/arm-none-eabi-gcc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/arm-none-eabi-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/arm-none-eabi-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+Build type is Release
+-- Found Python3: /usr/bin/python3 (found version "3.11.2") found components: Interpreter 
+TinyUSB available at /home/devel/pico2/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040; enabling build support for USB.
+BTstack available at /home/devel/pico2/pico-sdk/lib/btstack
+cyw43-driver available at /home/devel/pico2/pico-sdk/lib/cyw43-driver
+lwIP available at /home/devel/pico2/pico-sdk/lib/lwip
+mbedtls available at /home/devel/pico2/pico-sdk/lib/mbedtls
+-- Configuring for pico2-ice (rp2350)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/devel/pico2-ice/Firmware/pico2-ice-default/build
+devel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default/build $ make
+[  1%] Creating directories for 'pioasmBuild'
+[  2%] No download step for 'pioasmBuild'
+[  3%] No update step for 'pioasmBuild'
+[  4%] No patch step for 'pioasmBuild'
+[  5%] Performing configure step for 'pioasmBuild'
+Not searching for unused variables given on the command line.
+loading initial cache file /home/devel/pico2-ice/Firmware/pico2-ice-default/build/pico-sdk/src/rp2_common/pico_cyw43_driver/pioasm/tmp/pioasmBuild-cache-Release.cmake
+-- The CXX compiler identification is GNU 12.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/devel/pico2-ice/Firmware/pico2-ice-default/build/pioasm
+[  6%] Performing build step for 'pioasmBuild'
+[100%] Built target pioasm
+[  7%] Performing install step for 'pioasmBuild'
+[100%] Built target pioasm
+Install the project...
+-- Install configuration: "Release"
+[  8%] Completed 'pioasmBuild'
+[  8%] Built target pioasmBuild
+[  8%] Generating ice_cram.pio.h
+[  8%] Built target pico_ice_sdk_ice_cram_pio_h
+[  8%] Building ASM object pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.o
+[  9%] Linking ASM executable bs2_default.elf
+[  9%] Built target bs2_default
+[ 10%] Generating bs2_default.bin
+[ 11%] Generating bs2_default_padded_checksummed.S
+[ 12%] Building ASM object pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default_library.dir/bs2_default_padded_checksummed.S.o
+[ 12%] Built target bs2_default_library
+[ 13%] Building C object CMakeFiles/pico2_ice_default.dir/main.c.o
+/home/devel/pico2-ice/Firmware/pico2-ice-default/main.c:45:2: error: #error "pico-ice board model not found"
+   45 | #error "pico-ice board model not found"
+      |  ^~~~~
+/home/devel/pico2-ice/Firmware/pico2-ice-default/main.c: In function 'repl_prompt':
+/home/devel/pico2-ice/Firmware/pico2-ice-default/main.c:120:33: error: 'PICO_ICE_BOARD_NAME' undeclared (first use in this function); did you mean 'PICO_ICE_BOARD_ID'?
+  120 |     printf("\x1b[1m%s>\x1b[m ", PICO_ICE_BOARD_NAME);
+      |                                 ^~~~~~~~~~~~~~~~~~~
+      |                                 PICO_ICE_BOARD_ID
+/home/devel/pico2-ice/Firmware/pico2-ice-default/main.c:120:33: note: each undeclared identifier is reported only once for each function it appears in
+/home/devel/pico2-ice/Firmware/pico2-ice-default/main.c: In function 'main':
+/home/devel/pico2-ice/Firmware/pico2-ice-default/main.c:133:23: error: 'UART_TX_PIN' undeclared (first use in this function)
+  133 |     gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
+      |                       ^~~~~~~~~~~
+/home/devel/pico2-ice/Firmware/pico2-ice-default/main.c:134:23: error: 'UART_RX_PIN' undeclared (first use in this function)
+  134 |     gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
+      |                       ^~~~~~~~~~~
+make[2]: *** [CMakeFiles/pico2_ice_default.dir/build.make:76: CMakeFiles/pico2_ice_default.dir/main.c.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1891: CMakeFiles/pico2_ice_default.dir/all] Error 2
+make: *** [Makefile:91: all] Error 2 
