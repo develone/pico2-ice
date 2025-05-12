@@ -18,20 +18,66 @@ index e6d30d0..8776d41 100644
  #error "pico-ice board model not found"
  #endif
 devel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default $ git submodule update --init
-
-devel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default $ cmake -DPICO_ICE_BOARD=pico2-ice .
+Submodule 'Firmware/pico-ice-sdk' (https://github.com/tinyvision-ai-inc/pico-ice-sdk/) registered for path '../../Firmware/pico-ice-sdk'
+Cloning into '/home/devel/master-repos/pico2-ice/Firmware/pico-ice-sdk'...
+Submodule path '../../Firmware/pico-ice-sdk': checked out '53208b6a6d3a941587c0e9873345c197da2fb82f'
+evel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default $ mkdir build
+devel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default $ ln -sf ~/pico2/pico-sdk pico-sdk
+devel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default $ ls -la
+total 132
+drwxr-xr-x 3 devel devel  4096 May 11 18:52 .
+drwxr-xr-x 4 devel devel  4096 May 11 18:35 ..
+drwxr-xr-x 3 devel devel  4096 May 11 18:46 build
+-rw-r--r-- 1 devel devel  1960 May 11 18:35 CMakeLists.txt
+-rw-r--r-- 1 devel devel  4686 May 11 18:40 main.c
+-rw-r--r-- 1 devel devel 92672 May 11 18:35 pico2_ice_default.uf2
+lrwxrwxrwx 1 devel devel    15 May 11 18:35 pico-ice-sdk -> ../pico-ice-sdk
+lrwxrwxrwx 1 devel devel    26 May 11 18:52 pico-sdk -> /home/devel/pico2/pico-sdk
+-rw-r--r-- 1 devel devel  3165 May 11 18:35 pico_sdk_import.cmake
+-rw-r--r-- 1 devel devel  1076 May 11 18:35 README.md
+-rw-r--r-- 1 devel devel  2768 May 11 18:35 tusb_config.h
+-rw-r--r-- 1 devel devel  2547 May 11 18:35 usb_descriptors.c
+devel@pi5-90:~/pico2-ice/Firmware/pico2-ice-default $ cd build
 PICO_SDK_PATH is /home/devel/pico2/pico-sdk
-Target board (PICO_BOARD) is 'pico'.
+Defaulting platform (PICO_PLATFORM) to 'rp2040' since not specified.
+Defaulting target board (PICO_BOARD) to 'pico' since not specified.
 Using board configuration from /home/devel/pico2/pico-sdk/src/boards/include/boards/pico.h
 Pico Platform (PICO_PLATFORM) is 'rp2040'.
+-- Defaulting build type to 'Release' since not specified.
+Defaulting compiler (PICO_COMPILER) to 'pico_arm_cortex_m0plus_gcc' since not specified.
+Configuring toolchain based on PICO_COMPILER 'pico_arm_cortex_m0plus_gcc'
+Defaulting PICO_GCC_TRIPLE to 'arm-none-eabi'
+-- The C compiler identification is GNU 12.2.1
+-- The CXX compiler identification is GNU 12.2.1
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/arm-none-eabi-gcc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/arm-none-eabi-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/arm-none-eabi-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
 Build type is Release
+-- Found Python3: /usr/bin/python3 (found version "3.11.2") found components: Interpreter 
 TinyUSB available at /home/devel/pico2/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040; enabling build support for USB.
 BTstack available at /home/devel/pico2/pico-sdk/lib/btstack
 cyw43-driver available at /home/devel/pico2/pico-sdk/lib/cyw43-driver
 lwIP available at /home/devel/pico2/pico-sdk/lib/lwip
 mbedtls available at /home/devel/pico2/pico-sdk/lib/mbedtls
+CMake Error at CMakeLists.txt:22 (add_subdirectory):
+  The source directory
+
+    /home/devel/pico2-ice/Firmware/pico2-ice-default/pico-ice-sdk
+
+  does not contain a CMakeLists.txt file.
+
+
 -- Configuring for pico2-ice (rp2350)
--- Configuring done
--- Generating done
--- Build files have been written to: /home/devel/pico2-ice/Firmware/pico2-ice-default
+-- Configuring incomplete, errors occurred!
+See also "/home/devel/pico2-ice/Firmware/pico2-ice-default/build/CMakeFiles/CMakeOutput.log".
+See also "/home/devel/pico2-ice/Firmware/pico2-ice-default/build/CMakeFiles/CMakeError.log".
 
