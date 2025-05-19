@@ -1,0 +1,82 @@
+05/20/25 I can not get pico2-ice/FIRMWARE/pico2-ice-default to compile.
+The pico-ice/FIRMWARE/pico-ice-default builds for eith the pico or pico2.
+In the file pico-ice/FRIRMWARE/pico-ice-defaault/main,c  you see that ICE_27 & ICE_25 are used
+for the 2nd uart 
+            printf("  UART TX on RP0 = ICE27\r\n");
+            printf("  UART RX on RP1 = ICE25\r\n");
+            printf("\r\n");
+I can not locate where theses pins are being setup.
+I want ot to use ICE26 and ICE23 instead.
+devel@pi5-90:~/pico-ice/Firmware/pico-ice-default/build $ cmake -DPICO_BOARD=pico ../
+PICO_SDK_PATH is /home/devel/pico-ice/Firmware/pico-sdk
+Target board (PICO_BOARD) is 'pico'.
+Using board configuration from /home/devel/pico-ice/Firmware/pico-sdk/src/boards/include/boards/pico.h
+Defaulting platform (PICO_PLATFORM) to 'rp2040' based on PICO_BOARD setting.
+-- Defaulting build type to 'Release' since not specified.
+Defaulting compiler (PICO_COMPILER) to 'pico_arm_cortex_m0plus_gcc' since not specified.
+Configuring toolchain based on PICO_COMPILER 'pico_arm_cortex_m0plus_gcc'
+Defaulting PICO_GCC_TRIPLE to 'arm-none-eabi'
+-- The C compiler identification is GNU 12.2.1
+-- The CXX compiler identification is GNU 12.2.1
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/arm-none-eabi-gcc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/arm-none-eabi-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/arm-none-eabi-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+Build type is Release
+-- Found Python3: /usr/bin/python3 (found version "3.11.2") found components: Interpreter 
+TinyUSB available at /home/devel/pico-ice/Firmware/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040; enabling build support for USB.
+BTstack available at /home/devel/pico-ice/Firmware/pico-sdk/lib/btstack
+cyw43-driver available at /home/devel/pico-ice/Firmware/pico-sdk/lib/cyw43-driver
+lwIP available at /home/devel/pico-ice/Firmware/pico-sdk/lib/lwip
+mbedtls available at /home/devel/pico-ice/Firmware/pico-sdk/lib/mbedtls
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/devel/pico-ice/Firmware/pico-ice-default/build
+make VERBOSE=1 > make_pico_output.txt 2>&1
+-rw-r--r-- 1 devel devel  92160 May 19 08:18 pico_ice_default.uf2  or 
+devel@pi5-90:~/pico-ice/Firmware/pico-ice-default/build $ cmake -DPICO_BOARD=pico2 ../
+PICO_SDK_PATH is /home/devel/pico-ice/Firmware/pico-sdk
+Target board (PICO_BOARD) is 'pico2'.
+Using board configuration from /home/devel/pico-ice/Firmware/pico-sdk/src/boards/include/boards/pico2.h
+Auto-converting non-specific PICO_PLATFORM='rp2350' to 'rp2350-arm-s'
+Defaulting platform (PICO_PLATFORM) to 'rp2350-arm-s' based on PICO_BOARD setting.
+-- Defaulting build type to 'Release' since not specified.
+Defaulting compiler (PICO_COMPILER) to 'pico_arm_cortex_m33_gcc' since not specified.
+Configuring toolchain based on PICO_COMPILER 'pico_arm_cortex_m33_gcc'
+Defaulting PICO_GCC_TRIPLE to 'arm-none-eabi'
+-- The C compiler identification is GNU 12.2.1
+-- The CXX compiler identification is GNU 12.2.1
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/arm-none-eabi-gcc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/arm-none-eabi-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/arm-none-eabi-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+Build type is Release
+-- Found Python3: /usr/bin/python3 (found version "3.11.2") found components: Interpreter 
+TinyUSB available at /home/devel/pico-ice/Firmware/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040; enabling build support for USB.
+BTstack available at /home/devel/pico-ice/Firmware/pico-sdk/lib/btstack
+cyw43-driver available at /home/devel/pico-ice/Firmware/pico-sdk/lib/cyw43-driver
+lwIP available at /home/devel/pico-ice/Firmware/pico-sdk/lib/lwip
+mbedtls available at /home/devel/pico-ice/Firmware/pico-sdk/lib/mbedtls
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/devel/pico-ice/Firmware/pico-ice-default/build
+devel@pi5-90:~/pico-ice/Firmware/pico-ice-default/build $ make VERBOSE=1 > make_pico2_output.txt 2>&1
+-rw-r--r-- 1 devel devel  84992 May 19 08:25 pico_ice_default.uf2
+
+
